@@ -6,7 +6,7 @@ const playerM = document.querySelector('.js-player');
 const scoreS = document.querySelector('.js-score');
 const resultS = document.querySelector('.js-result');
 const restButton = document.querySelector('.js-reset-button');
-
+const resetMessage = document.querySelector('.js-reset-message')
 
 let score = JSON.parse(localStorage.getItem('score')) || {
   tie: 0,
@@ -74,14 +74,11 @@ function playGame (playerMove) {
     }
     
     gameScore(result);
-    
-    // alert(`You picked: ${playerMove}. Computer picked: ${computerMove}. Result: You ${result}!`);
     console.log("Current score:", score);
-
     playerM.innerHTML = `You picked: ${playerMove}.`
     computerM.innerHTML = `Computer picked: ${computerMove}.`
     resultS.innerHTML = `Result: You ${result}!`
-    scoreS.innerHTML = `tie: ${score.tie}. loose: ${score.loose}. win:${score.win}`;
+    scoreS.innerHTML = `Ties: ${score.tie}. Loose: ${score.loose}. Win:${score.win}`;
 
 
 }
@@ -95,12 +92,23 @@ function gameScore(result) {
   } else if (result === 'win') {
     score.win++;
   }
-  localStorage.setItem('score',JSON.stringify(score));
+  saveToStorage();
 }
 
+function saveToStorage(){
+  localStorage.setItem('score',JSON.stringify(score))
+};
 restButton.addEventListener('click', () => {
   score.tie = 0;
   score.loose = 0;
   score.win = 0;
-  alert('Score has been reset!');
+  updateScore();
+  resetMessage.innerHTML = 'score is reset'
+  
 });
+
+function updateScore() {
+  scoreS.textContent = 
+    `Ties: ${score.tie}  Losses: ${score.loose}  Wins: ${score.win}`;
+    saveToStorage();
+}
