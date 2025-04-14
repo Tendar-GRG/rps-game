@@ -13,8 +13,6 @@ let score = JSON.parse(localStorage.getItem('score')) || {
   loose: 0,
   win: 0
 };
-
-
 rockButton.addEventListener('click',()=>{
   playGame('rock');
 });
